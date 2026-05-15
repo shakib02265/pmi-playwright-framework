@@ -6,17 +6,23 @@ import pages.WarrantyPolicyPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class WarrantyPolicyPageTest extends BaseTest {
+public class WarrantyPolicyPageTest
+        extends BaseTest {
 
     @Test
-    public void verifyWarrantyPolicyPage() {
+    public void verifyWarrantyPage()
+
+            throws Exception {
 
         WarrantyPolicyPage page =
-                new WarrantyPolicyPage(driver);
+                new WarrantyPolicyPage(this.page);
 
         page.open();
 
+        waitForPage();
+
         Assert.assertTrue(
-                page.isPageLoaded());
+                page.isLoaded()
+        );
     }
 }

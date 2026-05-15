@@ -1,24 +1,23 @@
 package pages;
 
-import org.openqa.selenium.WebDriver;
+import com.microsoft.playwright.Page;
 
 public class PurchaseHistoryPage {
 
-    private WebDriver driver;
+    private Page page;
 
-    public PurchaseHistoryPage(WebDriver driver) {
-        this.driver = driver;
+    public PurchaseHistoryPage(Page page){
+        this.page = page;
     }
 
-    public void open() {
-
-        driver.get(
-                "https://estore.link3.net/user/login?redirect=/user/purchase-history");
+    public void open(){
+        page.navigate(
+                "https://estore.link3.net/user/login?redirect=/user/purchase-history"
+        );
     }
 
-    public boolean isPageLoaded() {
-
-        return driver.getCurrentUrl()
+    public boolean isLoaded(){
+        return page.url()
                 .contains("purchase-history");
     }
 }

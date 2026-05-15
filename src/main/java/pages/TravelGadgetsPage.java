@@ -1,24 +1,23 @@
 package pages;
 
-import org.openqa.selenium.WebDriver;
+import com.microsoft.playwright.Page;
 
 public class TravelGadgetsPage {
 
-    private WebDriver driver;
+    private Page page;
 
-    public TravelGadgetsPage(WebDriver driver) {
-        this.driver = driver;
+    public TravelGadgetsPage(Page page){
+        this.page = page;
     }
 
-    public void open() {
-
-        driver.get(
-                "https://estore.link3.net/category/travel-gadgets?brandIds=1&brandIds=2&brandIds=3&brandIds=4");
+    public void open(){
+        page.navigate(
+                "https://estore.link3.net/category/travel-gadgets"
+        );
     }
 
-    public boolean isPageLoaded() {
-
-        return driver.getCurrentUrl()
+    public boolean isLoaded(){
+        return page.url()
                 .contains("travel-gadgets");
     }
 }

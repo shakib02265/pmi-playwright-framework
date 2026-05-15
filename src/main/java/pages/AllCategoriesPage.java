@@ -1,24 +1,23 @@
 package pages;
 
-import org.openqa.selenium.WebDriver;
+import com.microsoft.playwright.Page;
 
 public class AllCategoriesPage {
 
-    private WebDriver driver;
+    private Page page;
 
-    public AllCategoriesPage(WebDriver driver) {
-        this.driver = driver;
+    public AllCategoriesPage(Page page){
+        this.page = page;
     }
 
-    public void open() {
-
-        driver.get(
-                "https://estore.link3.net/all-categories");
+    public void open(){
+        page.navigate(
+                "https://estore.link3.net/all-categories"
+        );
     }
 
-    public boolean isPageLoaded() {
-
-        return driver.getCurrentUrl()
+    public boolean isLoaded(){
+        return page.url()
                 .contains("all-categories");
     }
 }

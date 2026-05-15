@@ -6,17 +6,23 @@ import pages.LifestyleGadgetsPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class LifestyleGadgetsPageTest extends BaseTest {
+public class LifestyleGadgetsPageTest
+        extends BaseTest {
 
     @Test
-    public void verifyLifestyleGadgetsPage() {
+    public void verifyLifestylePage()
+
+            throws Exception {
 
         LifestyleGadgetsPage page =
-                new LifestyleGadgetsPage(driver);
+                new LifestyleGadgetsPage(this.page);
 
         page.open();
 
+        waitForPage();
+
         Assert.assertTrue(
-                page.isPageLoaded());
+                page.isLoaded()
+        );
     }
 }

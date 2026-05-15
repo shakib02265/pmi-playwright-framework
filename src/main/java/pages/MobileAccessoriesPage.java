@@ -1,24 +1,23 @@
 package pages;
 
-import org.openqa.selenium.WebDriver;
+import com.microsoft.playwright.Page;
 
 public class MobileAccessoriesPage {
 
-    private WebDriver driver;
+    private Page page;
 
-    public MobileAccessoriesPage(WebDriver driver) {
-        this.driver = driver;
+    public MobileAccessoriesPage(Page page){
+        this.page = page;
     }
 
-    public void open() {
-
-        driver.get(
-                "https://estore.link3.net/category/mobile-accessories");
+    public void open(){
+        page.navigate(
+                "https://estore.link3.net/category/mobile-accessories"
+        );
     }
 
-    public boolean isPageLoaded() {
-
-        return driver.getCurrentUrl()
+    public boolean isLoaded(){
+        return page.url()
                 .contains("mobile-accessories");
     }
 }

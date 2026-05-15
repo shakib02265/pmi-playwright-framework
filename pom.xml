@@ -1,44 +1,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.framework</groupId>
-    <artifactId>automation-framework</artifactId>
+    <artifactId>playwright-framework</artifactId>
     <version>1.0-SNAPSHOT</version>
-
-
-    <repositories>
-
-        <repository>
-
-            <id>jitpack.io</id>
-
-            <url>https://jitpack.io</url>
-
-        </repository>
-
-    </repositories>
 
 
     <dependencies>
 
 
-        <!-- Selenium -->
+        <!-- Playwright -->
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>4.21.0</version>
-        </dependency>
-
-
-        <!-- Driver -->
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>5.8.0</version>
+            <groupId>com.microsoft.playwright</groupId>
+            <artifactId>playwright</artifactId>
+            <version>1.53.0</version>
         </dependency>
 
 
@@ -50,11 +27,11 @@
         </dependency>
 
 
-        <!-- Screenshot -->
+        <!-- API -->
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.16.1</version>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.4.0</version>
         </dependency>
 
 
@@ -66,53 +43,19 @@
         </dependency>
 
 
-        <!-- HTML -->
-        <dependency>
-            <groupId>com.aventstack</groupId>
-            <artifactId>extentreports</artifactId>
-            <version>5.1.1</version>
-        </dependency>
-
-
-        <!-- Video -->
-        <dependency>
-
-            <groupId>com.github.stephenc.monte</groupId>
-
-            <artifactId>monte-screen-recorder</artifactId>
-
-            <version>0.7.7.0</version>
-
-        </dependency>
-
-
         <!-- Allure -->
         <dependency>
-
             <groupId>io.qameta.allure</groupId>
-
             <artifactId>allure-testng</artifactId>
-
             <version>2.29.1</version>
-
         </dependency>
+
+
         <dependency>
-    <groupId>io.rest-assured</groupId>
-    <artifactId>rest-assured</artifactId>
-    <version>5.4.0</version>
-</dependency>
-
-
-<dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
-    <artifactId>jackson-databind</artifactId>
-    <version>2.17.1</version>
-</dependency>
-<dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-simple</artifactId>
-    <version>2.0.13</version>
-</dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.13</version>
+        </dependency>
 
 
     </dependencies>

@@ -1,22 +1,39 @@
 package tests;
 
 import base.BaseTest;
+
 import pages.AboutUsPage;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class AboutUsPageTest extends BaseTest {
+public class AboutUsPageTest
+        extends BaseTest {
 
     @Test
-    public void verifyAboutUsPage() {
+    public void verifyAboutUsPage()
 
-        AboutUsPage page =
-                new AboutUsPage(driver);
+            throws Exception {
 
-        page.open();
+
+
+        AboutUsPage aboutPage =
+
+                new AboutUsPage(
+                        page
+                );
+
+
+
+        aboutPage.open();
+
+        waitForPage();
+
+
 
         Assert.assertTrue(
-                page.isPageLoaded());
+
+                aboutPage.isLoaded()
+        );
     }
 }

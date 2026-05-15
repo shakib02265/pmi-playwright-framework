@@ -6,17 +6,23 @@ import pages.AllCategoriesPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class AllCategoriesPageTest extends BaseTest {
+public class AllCategoriesPageTest
+        extends BaseTest {
 
     @Test
-    public void verifyAllCategoriesPage() {
+    public void verifyAllCategoriesPage()
+
+            throws Exception {
 
         AllCategoriesPage page =
-                new AllCategoriesPage(driver);
+                new AllCategoriesPage(this.page);
 
         page.open();
 
+        waitForPage();
+
         Assert.assertTrue(
-                page.isPageLoaded());
+                page.isLoaded()
+        );
     }
 }

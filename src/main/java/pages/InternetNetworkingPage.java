@@ -1,24 +1,23 @@
 package pages;
 
-import org.openqa.selenium.WebDriver;
+import com.microsoft.playwright.Page;
 
 public class InternetNetworkingPage {
 
-    private WebDriver driver;
+    private Page page;
 
-    public InternetNetworkingPage(WebDriver driver) {
-        this.driver = driver;
+    public InternetNetworkingPage(Page page){
+        this.page = page;
     }
 
-    public void open() {
-
-        driver.get(
-                "https://estore.link3.net/category/internet-networking");
+    public void open(){
+        page.navigate(
+                "https://estore.link3.net/category/internet-networking"
+        );
     }
 
-    public boolean isPageLoaded() {
-
-        return driver.getCurrentUrl()
+    public boolean isLoaded(){
+        return page.url()
                 .contains("internet-networking");
     }
 }

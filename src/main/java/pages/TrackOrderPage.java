@@ -1,24 +1,23 @@
 package pages;
 
-import org.openqa.selenium.WebDriver;
+import com.microsoft.playwright.Page;
 
 public class TrackOrderPage {
 
-    private WebDriver driver;
+    private Page page;
 
-    public TrackOrderPage(WebDriver driver) {
-        this.driver = driver;
+    public TrackOrderPage(Page page){
+        this.page = page;
     }
 
-    public void open() {
-
-        driver.get(
-                "https://estore.link3.net/user/login?redirect=/track-order");
+    public void open(){
+        page.navigate(
+                "https://estore.link3.net/user/login?redirect=/track-order"
+        );
     }
 
-    public boolean isPageLoaded() {
-
-        return driver.getCurrentUrl()
+    public boolean isLoaded(){
+        return page.url()
                 .contains("track-order");
     }
 }

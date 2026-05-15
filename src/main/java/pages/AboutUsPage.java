@@ -1,24 +1,31 @@
 package pages;
 
-import org.openqa.selenium.WebDriver;
+import com.microsoft.playwright.Page;
 
 public class AboutUsPage {
 
-    private WebDriver driver;
+    private Page page;
 
-    public AboutUsPage(WebDriver driver) {
-        this.driver = driver;
+
+    public AboutUsPage(Page page){
+
+        this.page = page;
     }
 
-    public void open() {
 
-        driver.get(
-                "https://estore.link3.net/page/about-us");
+    public void open(){
+
+        page.navigate(
+
+                "https://estore.link3.net/page/about-us"
+        );
     }
 
-    public boolean isPageLoaded() {
 
-        return driver.getCurrentUrl()
+    public boolean isLoaded(){
+
+        return page.url()
+
                 .contains("about-us");
     }
 }

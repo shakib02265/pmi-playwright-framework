@@ -1,41 +1,38 @@
 package base;
 
-import java.lang.reflect.Method;
-
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import java.time.Duration;
-
-import java.awt.GraphicsEnvironment;
-
-import org.openqa.selenium.WebDriver;
-
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import com.microsoft.playwright.*;
 
 import org.testng.ITestResult;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 import io.qameta.allure.Allure;
 
+import utils.CsvUtil;
 import utils.PdfUtil;
 import utils.ReportUtil;
 
-import utils.ScreenshotUtil;
+import java.lang.reflect.Method;
 
-import utils.CsvUtil;
-import utils.VideoUtil;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 public class BaseTest {
 
-    public WebDriver driver;
+    protected Playwright playwright;
+
+    protected Browser browser;
+
+    protected BrowserContext context;
+
+    protected Page page;
 
     private long startTime;
+
+    private String testName;
+
 
 
 
@@ -44,11 +41,24 @@ public class BaseTest {
 
             Method method
 
-    ) throws Exception {
+    )
+
+            throws Exception {
 
 
 
-        // execution start
+
+        // test name
+
+
+        testName =
+
+                method.getName();
+
+
+
+
+        // timer
 
 
         startTime =
@@ -57,111 +67,116 @@ public class BaseTest {
 
 
 
-        // chromedriver
+
+        // folders
 
 
-        WebDriverManager
+        Files.createDirectories(
 
-                .chromedriver()
-
-                .setup();
-
-
-
-        ChromeOptions options =
-
-                new ChromeOptions();
+                Path.of(
+                        "videos"
+                )
+        );
 
 
 
+        Files.createDirectories(
 
-        // GitHub Actions safe
+                Path.of(
+                        "screenshots"
+                )
+        );
 
 
-        options.addArguments(
 
-                "--headless=new",
+        Files.createDirectories(
 
-                "--no-sandbox",
+                Path.of(
+                        "traces"
+                )
+        );
 
-                "--disable-dev-shm-usage",
 
-                "--disable-gpu",
 
-                "--window-size=1920,1080",
+        Files.createDirectories(
 
-                "--remote-allow-origins=*"
+                Path.of(
+                        "pdf"
+                )
         );
 
 
 
 
-        driver =
+        // playwright
 
-                new ChromeDriver(
 
-                        options
+        playwright =
+
+                Playwright.create();
+
+
+
+
+        // browser
+
+
+        browser =
+
+                playwright.chromium()
+
+                        .launch(
+
+                                new BrowserType
+                                        .LaunchOptions()
+
+                                        .setHeadless(
+                                                false
+                                        )
+                        );
+
+
+
+
+        // context + video
+
+
+        context =
+
+                browser.newContext(
+
+                        new Browser
+                                .NewContextOptions()
+
+                                .setRecordVideoDir(
+
+                                        Path.of(
+                                                "videos"
+                                        )
+                                )
                 );
 
 
 
 
-        // slower stable loading
+        // trace
 
 
-        driver.manage()
+        context.tracing()
 
-                .timeouts()
-
-                .pageLoadTimeout(
-
-                        Duration.ofSeconds(30)
-                );
-
-
-
-        driver.manage()
-
-                .timeouts()
-
-                .implicitlyWait(
-
-                        Duration.ofSeconds(10)
-                );
-
-
-
-        driver.manage()
-
-                .window()
-
-                .maximize();
+                .start();
 
 
 
 
-        // video only local
+        // page
 
 
-        if(
-
-                !GraphicsEnvironment
-
-                        .isHeadless()
-
-        ){
-
-            VideoUtil.startRecord(
-
-                    method.getName()
-            );
-        }
+        page =
+                context.newPage();
     }
 
 
-
-
-    // visual pause
 
 
     protected void waitForPage()
@@ -169,9 +184,11 @@ public class BaseTest {
             throws Exception {
 
 
+
+
         Thread.sleep(
 
-                2000
+                5000
         );
     }
 
@@ -183,14 +200,9 @@ public class BaseTest {
 
             ITestResult result
 
-    ) throws Exception {
+    )
 
-
-
-
-        String testName =
-
-                result.getName();
+            throws Exception {
 
 
 
@@ -222,19 +234,16 @@ public class BaseTest {
 
 
         String currentUrl =
-
-                driver.getCurrentUrl();
-
+                page.url();
 
 
 
-        // small pause
+
+        // keep video reference
 
 
-        Thread.sleep(
-
-                1000
-        );
+        Video video =
+                page.video();
 
 
 
@@ -242,23 +251,105 @@ public class BaseTest {
         // screenshot
 
 
-        if(
+        Path screenshotPath =
 
-                driver != null
-        ){
+                Path.of(
 
-            ScreenshotUtil.capture(
-
-                    driver,
-
-                    testName
-            );
-        }
+                        "screenshots/"
+                                + testName
+                                + ".png"
+                );
 
 
 
 
-        // CSV
+        page.screenshot(
+
+                new Page
+                        .ScreenshotOptions()
+
+                        .setPath(
+                                screenshotPath
+                        )
+        );
+
+
+
+
+        // trace
+
+
+        Path tracePath =
+
+                Path.of(
+
+                        "traces/"
+                                + testName
+                                + ".zip"
+                );
+
+
+
+
+        context.tracing()
+
+                .stop(
+
+                        new Tracing
+                                .StopOptions()
+
+                                .setPath(
+                                        tracePath
+                                )
+                );
+
+
+
+
+        // close context
+        // unlocks video
+
+
+        context.close();
+
+
+
+
+        // rename video
+
+
+        Path originalVideo =
+                video.path();
+
+
+
+
+        Path renamedVideo =
+
+                Path.of(
+
+                        "videos/"
+                                + testName
+                                + ".webm"
+                );
+
+
+
+
+        Files.move(
+
+                originalVideo,
+
+                renamedVideo,
+
+                StandardCopyOption
+                        .REPLACE_EXISTING
+        );
+
+
+
+
+        // reports
 
 
         CsvUtil.create(
@@ -277,9 +368,6 @@ public class BaseTest {
 
 
 
-        // PDF
-
-
         PdfUtil.create(
 
                 "UI",
@@ -294,9 +382,6 @@ public class BaseTest {
         );
 
 
-
-
-        // overall report
 
 
         ReportUtil.create(
@@ -315,122 +400,65 @@ public class BaseTest {
 
 
 
-        // video only local
+        // pdf
 
 
-        if(
+        Path pdfPath =
 
-                !GraphicsEnvironment
+                Path.of(
 
-                        .isHeadless()
-
-        ){
-
-            VideoUtil.stopRecord();
-        }
+                        "pdf/"
+                                + testName
+                                + ".pdf"
+                );
 
 
 
 
-        // allure
+        // allure attachments
 
 
-        Allure.step(
+        Allure.addAttachment(
 
-                "Executed : "
+                "Screenshot",
 
-                        + testName
+                Files.newInputStream(
+                        screenshotPath
+                )
         );
 
 
 
+        Allure.addAttachment(
 
-        // screenshot
+                "Video",
 
-
-        try {
-
-
-            Allure.addAttachment(
-
-                    "Screenshot",
-
-                    Files.newInputStream(
-
-                            Paths.get(
-
-                                    "screenshots/"
-                                            + testName
-                                            + ".png"
-                            )
-                    )
-            );
-
-
-        } catch(Exception e){}
+                Files.newInputStream(
+                        renamedVideo
+                )
+        );
 
 
 
+        Allure.addAttachment(
 
-        // video
+                "Trace",
 
-
-        try {
-
-
-            if(
-
-                    !GraphicsEnvironment
-
-                            .isHeadless()
-
-            ){
-
-                Allure.addAttachment(
-
-                        "Video",
-
-                        Files.newInputStream(
-
-                                Paths.get(
-
-                                        "videos/"
-                                                + testName
-                                                + ".avi"
-                                )
-                        )
-                );
-            }
-
-
-        } catch(Exception e){}
+                Files.newInputStream(
+                        tracePath
+                )
+        );
 
 
 
+        Allure.addAttachment(
 
-        // pdf
+                "PDF",
 
-
-        try {
-
-
-            Allure.addAttachment(
-
-                    "PDF",
-
-                    Files.newInputStream(
-
-                            Paths.get(
-
-                                    "pdf/"
-                                            + testName
-                                            + ".pdf"
-                            )
-                    )
-            );
-
-
-        } catch(Exception e){}
+                Files.newInputStream(
+                        pdfPath
+                )
+        );
 
 
 
@@ -438,12 +466,8 @@ public class BaseTest {
         // close browser
 
 
-        if(
+        browser.close();
 
-                driver != null
-        ){
-
-            driver.quit();
-        }
+        playwright.close();
     }
 }

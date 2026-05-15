@@ -6,17 +6,23 @@ import pages.PurchaseHistoryPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class PurchaseHistoryPageTest extends BaseTest {
+public class PurchaseHistoryPageTest
+        extends BaseTest {
 
     @Test
-    public void verifyPurchaseHistoryPage() {
+    public void verifyPurchasePage()
+
+            throws Exception {
 
         PurchaseHistoryPage page =
-                new PurchaseHistoryPage(driver);
+                new PurchaseHistoryPage(this.page);
 
         page.open();
 
+        waitForPage();
+
         Assert.assertTrue(
-                page.isPageLoaded());
+                page.isLoaded()
+        );
     }
 }

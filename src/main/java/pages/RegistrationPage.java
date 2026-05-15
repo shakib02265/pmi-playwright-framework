@@ -1,24 +1,30 @@
 package pages;
 
-import org.openqa.selenium.WebDriver;
+import com.microsoft.playwright.Page;
 
 public class RegistrationPage {
 
-    private WebDriver driver;
+    private Page page;
 
-    public RegistrationPage(WebDriver driver) {
-        this.driver = driver;
+
+    public RegistrationPage(Page page){
+        this.page = page;
     }
 
-    public void open() {
 
-        driver.get(
-                "https://estore.link3.net/user/registration");
+    public void open(){
+
+        page.navigate(
+
+                "https://estore.link3.net/user/registration"
+        );
     }
 
-    public boolean isPageLoaded() {
 
-        return driver.getCurrentUrl()
+    public boolean isLoaded(){
+
+        return page.url()
+
                 .contains("registration");
     }
 }

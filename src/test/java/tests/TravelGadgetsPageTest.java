@@ -6,17 +6,23 @@ import pages.TravelGadgetsPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class TravelGadgetsPageTest extends BaseTest {
+public class TravelGadgetsPageTest
+        extends BaseTest {
 
     @Test
-    public void verifyTravelGadgetsPage() {
+    public void verifyTravelPage()
+
+            throws Exception {
 
         TravelGadgetsPage page =
-                new TravelGadgetsPage(driver);
+                new TravelGadgetsPage(this.page);
 
         page.open();
 
+        waitForPage();
+
         Assert.assertTrue(
-                page.isPageLoaded());
+                page.isLoaded()
+        );
     }
 }

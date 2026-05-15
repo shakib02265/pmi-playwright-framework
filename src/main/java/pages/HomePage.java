@@ -1,23 +1,30 @@
 package pages;
 
-import org.openqa.selenium.WebDriver;
+import com.microsoft.playwright.Page;
 
 public class HomePage {
 
-    private WebDriver driver;
+    private Page page;
 
-    public HomePage(WebDriver driver) {
-        this.driver = driver;
+
+    public HomePage(Page page){
+
+        this.page = page;
     }
 
-    public void open() {
 
-        driver.get("https://estore.link3.net/");
+    public void open(){
+
+        page.navigate(
+                "https://estore.link3.net"
+        );
     }
 
-    public boolean isPageLoaded() {
 
-        return driver.getCurrentUrl()
-                .contains("estore.link3.net");
+    public boolean isLoaded(){
+
+        return page.title()
+
+                .contains("Link3");
     }
 }

@@ -1,22 +1,39 @@
 package tests;
 
 import base.BaseTest;
+
 import pages.SearchPage;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class SearchPageTest extends BaseTest {
+public class SearchPageTest
+        extends BaseTest {
 
     @Test
-    public void verifySearchPage() {
+    public void verifySearchPage()
 
-        SearchPage page =
-                new SearchPage(driver);
+            throws Exception {
 
-        page.open();
+
+
+        SearchPage searchPage =
+
+                new SearchPage(
+                        page
+                );
+
+
+
+        searchPage.open();
+
+        waitForPage();
+
+
 
         Assert.assertTrue(
-                page.isPageLoaded());
+
+                searchPage.isLoaded()
+        );
     }
 }

@@ -6,17 +6,23 @@ import pages.MobileAccessoriesPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class MobileAccessoriesPageTest extends BaseTest {
+public class MobileAccessoriesPageTest
+        extends BaseTest {
 
     @Test
-    public void verifyMobileAccessoriesPage() {
+    public void verifyMobilePage()
+
+            throws Exception {
 
         MobileAccessoriesPage page =
-                new MobileAccessoriesPage(driver);
+                new MobileAccessoriesPage(this.page);
 
         page.open();
 
+        waitForPage();
+
         Assert.assertTrue(
-                page.isPageLoaded());
+                page.isLoaded()
+        );
     }
 }

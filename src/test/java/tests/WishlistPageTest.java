@@ -6,17 +6,23 @@ import pages.WishlistPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class WishlistPageTest extends BaseTest {
+public class WishlistPageTest
+        extends BaseTest {
 
     @Test
-    public void verifyWishlistPage() {
+    public void verifyWishlistPage()
+
+            throws Exception {
 
         WishlistPage page =
-                new WishlistPage(driver);
+                new WishlistPage(this.page);
 
         page.open();
 
+        waitForPage();
+
         Assert.assertTrue(
-                page.isPageLoaded());
+                page.isLoaded()
+        );
     }
 }

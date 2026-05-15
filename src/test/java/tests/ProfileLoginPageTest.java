@@ -6,17 +6,23 @@ import pages.ProfileLoginPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class ProfileLoginPageTest extends BaseTest {
+public class ProfileLoginPageTest
+        extends BaseTest {
 
     @Test
-    public void verifyProfileLoginPage() {
+    public void verifyProfilePage()
+
+            throws Exception {
 
         ProfileLoginPage page =
-                new ProfileLoginPage(driver);
+                new ProfileLoginPage(this.page);
 
         page.open();
 
+        waitForPage();
+
         Assert.assertTrue(
-                page.isPageLoaded());
+                page.isLoaded()
+        );
     }
 }

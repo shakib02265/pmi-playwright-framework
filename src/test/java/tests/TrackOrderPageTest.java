@@ -6,17 +6,23 @@ import pages.TrackOrderPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class TrackOrderPageTest extends BaseTest {
+public class TrackOrderPageTest
+        extends BaseTest {
 
     @Test
-    public void verifyTrackOrderPage() {
+    public void verifyTrackPage()
+
+            throws Exception {
 
         TrackOrderPage page =
-                new TrackOrderPage(driver);
+                new TrackOrderPage(this.page);
 
         page.open();
 
+        waitForPage();
+
         Assert.assertTrue(
-                page.isPageLoaded());
+                page.isLoaded()
+        );
     }
 }

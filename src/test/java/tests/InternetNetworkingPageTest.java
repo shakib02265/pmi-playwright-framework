@@ -6,17 +6,23 @@ import pages.InternetNetworkingPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class InternetNetworkingPageTest extends BaseTest {
+public class InternetNetworkingPageTest
+        extends BaseTest {
 
     @Test
-    public void verifyInternetNetworkingPage() {
+    public void verifyInternetPage()
+
+            throws Exception {
 
         InternetNetworkingPage page =
-                new InternetNetworkingPage(driver);
+                new InternetNetworkingPage(this.page);
 
         page.open();
 
+        waitForPage();
+
         Assert.assertTrue(
-                page.isPageLoaded());
+                page.isLoaded()
+        );
     }
 }

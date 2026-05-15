@@ -1,22 +1,39 @@
 package tests;
 
 import base.BaseTest;
+
 import pages.RegistrationPage;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class RegistrationPageTest extends BaseTest {
+public class RegistrationPageTest
+        extends BaseTest {
 
     @Test
-    public void verifyRegistrationPage() {
+    public void verifyRegistrationPage()
 
-        RegistrationPage page =
-                new RegistrationPage(driver);
+            throws Exception {
 
-        page.open();
+
+
+        RegistrationPage registrationPage =
+
+                new RegistrationPage(
+                        page
+                );
+
+
+
+        registrationPage.open();
+
+        waitForPage();
+
+
 
         Assert.assertTrue(
-                page.isPageLoaded());
+
+                registrationPage.isLoaded()
+        );
     }
 }
