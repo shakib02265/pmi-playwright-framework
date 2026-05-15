@@ -1,0 +1,162 @@
+name: Playwright Automation
+
+on:
+
+  push:
+
+    branches:
+      - main
+
+
+  pull_request:
+
+    branches:
+      - main
+
+
+
+
+jobs:
+
+  test:
+
+    runs-on: ubuntu-latest
+
+
+
+
+    steps:
+
+
+      - name: Checkout code
+
+        uses: actions/checkout@v4
+
+
+
+
+      - name: Setup Java
+
+        uses: actions/setup-java@v4
+
+        with:
+
+          distribution: temurin
+
+          java-version: 21
+
+
+
+
+      - name: Setup Node
+
+        uses: actions/setup-node@v4
+
+        with:
+
+          node-version: 20
+
+
+
+
+      - name: Cache Maven
+
+        uses: actions/cache@v4
+
+        with:
+
+          path: ~/.m2
+
+          key: maven-${{ runner.os }}
+
+
+
+
+      - name: Install dependencies
+
+        run: |
+
+          npm install -g playwright
+          npx playwright install --with-deps
+
+
+
+
+      - name: Run Tests
+
+        run: mvn clean test
+
+
+
+
+      - name: Upload Allure
+
+        if: always()
+
+        uses: actions/upload-artifact@v4
+
+        with:
+
+          name: allure-results
+
+          path: allure-results
+
+
+
+
+      - name: Upload Screenshots
+
+        if: always()
+
+        uses: actions/upload-artifact@v4
+
+        with:
+
+          name: screenshots
+
+          path: screenshots
+
+
+
+
+      - name: Upload Videos
+
+        if: always()
+
+        uses: actions/upload-artifact@v4
+
+        with:
+
+          name: videos
+
+          path: videos
+
+
+
+
+      - name: Upload Traces
+
+        if: always()
+
+        uses: actions/upload-artifact@v4
+
+        with:
+
+          name: traces
+
+          path: traces
+
+
+
+
+      - name: Upload Reports
+
+        if: always()
+
+        uses: actions/upload-artifact@v4
+
+        with:
+
+          name: reports
+
+          path: reports

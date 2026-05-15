@@ -131,7 +131,7 @@ public class BaseTest {
                                         .LaunchOptions()
 
                                         .setHeadless(
-                                                false
+                                                true
                                         )
                         );
 
