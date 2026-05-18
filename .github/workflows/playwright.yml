@@ -75,7 +75,7 @@ jobs:
 
 
 
-      - name: Install dependencies
+      - name: Install Playwright
 
         run: |
 
@@ -92,14 +92,29 @@ jobs:
 
 
 
-      - name: Generate Allure HTML
+      - name: Install Allure
 
-        run: mvn allure:report
+        if: always()
+
+        run: |
+
+          npm install -g allure-commandline --save-dev
 
 
 
 
-      - name: Upload Allure
+      - name: Generate Allure Report
+
+        if: always()
+
+        run: |
+
+          allure generate allure-results --clean -o allure-report
+
+
+
+
+      - name: Upload Allure Results
 
         if: always()
 
@@ -176,11 +191,15 @@ jobs:
 
       - name: Build Dashboard
 
+        if: always()
+
         run: |
 
           mkdir dashboard
 
-          cp -r allure-report dashboard/allure
+          mkdir dashboard/allure
+
+          cp -r allure-report/* dashboard/allure/
 
           cp index.html dashboard/index.html
 
@@ -188,6 +207,8 @@ jobs:
 
 
       - name: Deploy Pages
+
+        if: always()
 
         uses: peaceiris/actions-gh-pages@v4
 
