@@ -1,11 +1,9 @@
 target/
+allure-results/
 allure-report/
-screenshots/
 videos/
-csv/
+screenshots/
+traces/
 pdf/
-reports/
 .idea/
-.vscode/
-*.log
-*.class
+*.iml

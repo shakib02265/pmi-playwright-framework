@@ -73,36 +73,28 @@ public class BaseTest {
 
         Files.createDirectories(
 
-                Path.of(
-                        "videos"
-                )
+                Path.of("videos")
         );
 
 
 
         Files.createDirectories(
 
-                Path.of(
-                        "screenshots"
-                )
+                Path.of("screenshots")
         );
 
 
 
         Files.createDirectories(
 
-                Path.of(
-                        "traces"
-                )
+                Path.of("traces")
         );
 
 
 
         Files.createDirectories(
 
-                Path.of(
-                        "pdf"
-                )
+                Path.of("pdf")
         );
 
 
@@ -112,8 +104,23 @@ public class BaseTest {
 
 
         playwright =
-
                 Playwright.create();
+
+
+
+
+        // headless:
+        // local = false
+        // github = true
+
+
+        boolean headless =
+
+                System.getenv(
+
+                        "CI"
+
+                ) != null;
 
 
 
@@ -131,7 +138,7 @@ public class BaseTest {
                                         .LaunchOptions()
 
                                         .setHeadless(
-                                                true
+                                                headless
                                         )
                         );
 
@@ -159,7 +166,7 @@ public class BaseTest {
 
 
 
-        // trace
+        // tracing
 
 
         context.tracing()
@@ -174,6 +181,17 @@ public class BaseTest {
 
         page =
                 context.newPage();
+
+
+
+
+        // default timeout
+
+
+        page.setDefaultTimeout(
+
+                30000
+        );
     }
 
 
@@ -188,7 +206,7 @@ public class BaseTest {
 
         Thread.sleep(
 
-                5000
+                3000
         );
     }
 
@@ -307,7 +325,7 @@ public class BaseTest {
 
 
         // close context
-        // unlocks video
+        // unlock video
 
 
         context.close();
@@ -332,6 +350,21 @@ public class BaseTest {
                                 + testName
                                 + ".webm"
                 );
+
+
+
+
+        if(
+
+                Files.exists(
+                        renamedVideo
+                )
+        ){
+
+            Files.delete(
+                    renamedVideo
+            );
+        }
 
 
 
@@ -415,7 +448,7 @@ public class BaseTest {
 
 
 
-        // allure attachments
+        // allure
 
 
         Allure.addAttachment(
@@ -463,7 +496,7 @@ public class BaseTest {
 
 
 
-        // close browser
+        // close
 
 
         browser.close();

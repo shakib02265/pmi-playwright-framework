@@ -6,10 +6,10 @@ import pages.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class HomePageTest extends BaseTest {
+public class AboutPageTest extends BaseTest {
 
     @Test
-    public void verifyHomePage() throws Exception {
+    public void verifyAboutPage() throws Exception {
 
         PMILoginPage login = new PMILoginPage(page);
 
@@ -18,15 +18,13 @@ public class HomePageTest extends BaseTest {
                 "shaan4all"
         );
 
-        Assert.assertTrue(
-                login.loginSuccess()
-        );
+        Assert.assertTrue(login.loginSuccess());
 
-        HomePage home =
-                new HomePage(page);
+        AboutPage about =
+                new AboutPage(page);
 
         Assert.assertTrue(
-                home.open()
+                about.open()
         );
     }
 }
