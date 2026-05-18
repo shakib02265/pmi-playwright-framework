@@ -14,6 +14,9 @@ on:
       - main
 
 
+  workflow_dispatch:
+
+
 
 
 jobs:
@@ -89,6 +92,13 @@ jobs:
 
 
 
+      - name: Generate Allure HTML
+
+        run: mvn allure:report
+
+
+
+
       - name: Upload Allure
 
         if: always()
@@ -160,3 +170,29 @@ jobs:
           name: reports
 
           path: reports
+
+
+
+
+      - name: Build Dashboard
+
+        run: |
+
+          mkdir dashboard
+
+          cp -r allure-report dashboard/allure
+
+          cp index.html dashboard/index.html
+
+
+
+
+      - name: Deploy Pages
+
+        uses: peaceiris/actions-gh-pages@v4
+
+        with:
+
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+          publish_dir: ./dashboard
