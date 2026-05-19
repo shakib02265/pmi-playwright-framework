@@ -19,6 +19,15 @@ on:
 
 
 
+permissions:
+
+  contents: write
+
+  pages: write
+
+
+
+
 jobs:
 
   test:
@@ -80,6 +89,7 @@ jobs:
         run: |
 
           npm install -g playwright
+
           npx playwright install --with-deps
 
 
@@ -195,13 +205,19 @@ jobs:
 
         run: |
 
-          mkdir dashboard
+          mkdir -p dashboard/allure
 
-          mkdir dashboard/allure
+          cp -r allure-report/* dashboard/allure/ || true
 
-          cp -r allure-report/* dashboard/allure/
+          if [ -f index.html ]; then
 
-          cp index.html dashboard/index.html
+            cp index.html dashboard/index.html
+
+          else
+
+            echo "<html><body style='font-family:Arial;padding:40px'><h1>PMI Automation Dashboard</h1><p><a href='allure/index.html'>Open Allure Report</a></p></body></html>" > dashboard/index.html
+
+          fi
 
 
 
