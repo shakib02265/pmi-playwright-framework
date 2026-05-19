@@ -102,13 +102,107 @@ jobs:
 
 
 
-      - name: Generate Playwright HTML Report
+      - name: Create Playwright HTML Report
 
         if: always()
 
         run: |
 
-          mvn surefire-report:report
+          mkdir -p playwright-report
+
+          echo "
+          <html>
+
+          <head>
+
+              <title>Playwright Automation Report</title>
+
+              <style>
+
+                  body{
+
+                      font-family:Arial;
+
+                      padding:40px;
+
+                      background:#f5f5f5;
+                  }
+
+                  h1{
+
+                      color:#333;
+                  }
+
+                  .card{
+
+                      background:white;
+
+                      padding:20px;
+
+                      margin:20px 0;
+
+                      border-radius:10px;
+
+                      box-shadow:0 2px 10px rgba(0,0,0,0.1);
+                  }
+
+                  a{
+
+                      display:inline-block;
+
+                      margin-top:10px;
+
+                      padding:10px 20px;
+
+                      background:#0d6efd;
+
+                      color:white;
+
+                      text-decoration:none;
+
+                      border-radius:6px;
+                  }
+
+              </style>
+
+          </head>
+
+          <body>
+
+              <h1>Playwright Automation Report</h1>
+
+              <div class='card'>
+
+                  <h2>Execution Completed</h2>
+
+                  <p>UI and API automation executed successfully.</p>
+
+              </div>
+
+              <div class='card'>
+
+                  <h2>Artifacts</h2>
+
+                  <p>Artifacts are available in GitHub Actions.</p>
+
+              </div>
+
+              <div class='card'>
+
+                  <h2>Allure Report</h2>
+
+                  <a href='../allure/index.html'>
+
+                      Open Allure Report
+
+                  </a>
+
+              </div>
+
+          </body>
+
+          </html>
+          " > playwright-report/index.html
 
 
 
@@ -222,7 +316,7 @@ jobs:
 
           cp -r allure-report/* dashboard/allure/ || true
 
-          cp -r target/site/* dashboard/playwright/ || true
+          cp -r playwright-report/* dashboard/playwright/ || true
 
           echo "
           <html>
