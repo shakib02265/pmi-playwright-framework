@@ -102,6 +102,17 @@ jobs:
 
 
 
+      - name: Generate Playwright HTML Report
+
+        if: always()
+
+        run: |
+
+          mvn surefire-report:report
+
+
+
+
       - name: Install Allure
 
         if: always()
@@ -207,17 +218,83 @@ jobs:
 
           mkdir -p dashboard/allure
 
+          mkdir -p dashboard/playwright
+
           cp -r allure-report/* dashboard/allure/ || true
 
-          if [ -f index.html ]; then
+          cp -r target/site/* dashboard/playwright/ || true
 
-            cp index.html dashboard/index.html
+          echo "
+          <html>
 
-          else
+          <head>
 
-            echo "<html><body style='font-family:Arial;padding:40px'><h1>PMI Automation Dashboard</h1><p><a href='allure/index.html'>Open Allure Report</a></p></body></html>" > dashboard/index.html
+              <title>PMI Automation Dashboard</title>
 
-          fi
+              <style>
+
+                  body{
+
+                      font-family:Arial;
+
+                      padding:40px;
+
+                      background:#f5f5f5;
+                  }
+
+                  h1{
+
+                      color:#333;
+                  }
+
+                  a{
+
+                      display:block;
+
+                      margin:20px 0;
+
+                      padding:15px;
+
+                      width:300px;
+
+                      background:#0d6efd;
+
+                      color:white;
+
+                      text-decoration:none;
+
+                      border-radius:8px;
+                  }
+
+                  a:hover{
+
+                      background:#084298;
+                  }
+
+              </style>
+
+          </head>
+
+          <body>
+
+              <h1>PMI Automation Dashboard</h1>
+
+              <a href='allure/index.html'>
+
+                  Open Allure Report
+
+              </a>
+
+              <a href='playwright/index.html'>
+
+                  Open Playwright Report
+
+              </a>
+
+          </body>
+
+          </html>
+          " > dashboard/index.html
 
 
 
